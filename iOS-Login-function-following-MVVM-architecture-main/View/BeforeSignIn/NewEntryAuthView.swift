@@ -39,14 +39,6 @@ struct NewEntryAuthView: View {
             // MARK: - ログインボタン
             EmailAuthButtonView(isActive: $isActive, name: name, email: email, password: password)
             
-            Text("または").padding()
-            
-            // MARK: - Googleアカウントログイン
-            GoogleAuthButtonView(isActive: $isActive)
-            
-            // MARK: - Apple IDログイン
-            AppleAuthButtonView(isActive: $isActive,userEditReauthName:"",userWithDrawa: false)
-            
         }.onAppear {
             authVM.resetErrorMsg()
         }
