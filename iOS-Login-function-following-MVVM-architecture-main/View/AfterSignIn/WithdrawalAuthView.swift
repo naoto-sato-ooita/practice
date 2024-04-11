@@ -48,27 +48,6 @@ struct WithdrawalAuthView: View {
             
             Divider().padding()
             
-            // MARK: - Google
-            Button {
-                authVM.credentialGoogleWithdrawal { result in
-                    if result {
-                        isActive = true
-                    }
-                }
-            } label: {
-                Text("Google退会")
-            }.frame(width:170)
-                .padding()
-                .background(.cyan)
-                .tint(.white)
-                .cornerRadius(5)
-                .padding()
-            
-            Divider().padding()
-            
-            // MARK: - Apple
-            Text("Apple退会")
-            AppleAuthButtonView(isActive: $isActive, userEditReauthName: "", userWithDrawa: true)
         }
     }
 }
