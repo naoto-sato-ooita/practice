@@ -15,10 +15,10 @@ struct PasswordResetView: View {
     private let validationVM = ValidationViewModel()
     
     // MARK: - Inputプロパティ
-    @State var email:String = ""
+    @State var email:    String = ""
     
     // MARK: - Inputプロパティ
-    @State var wasSent:Bool = false
+    @State var wasSent:  Bool = false
         
     var body: some View {
         VStack{
