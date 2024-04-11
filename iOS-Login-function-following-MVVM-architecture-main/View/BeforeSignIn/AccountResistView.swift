@@ -1,5 +1,5 @@
 //
-//  NewEntryAuthView.swift
+//  AccountResistView.swift
 //  TestAuth
 //
 //  Created by t&a on 2023/04/02.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NewEntryAuthView: View {
+struct AccountResistView: View {
     
     // MARK: - ViewModels
     @ObservedObject var authVM = AuthViewModel.shared
@@ -32,8 +32,12 @@ struct NewEntryAuthView: View {
             ErrorMessageView()
             
             // MARK: - InputBox
-            TextField("ユーザー名", text: $name).padding().textFieldStyle(.roundedBorder)
-            TextField("メールアドレス", text: $email).padding().textFieldStyle(.roundedBorder)
+            TextField("ユーザー名", text: $name)
+                .padding()
+                .textFieldStyle(.roundedBorder)
+            TextField("メールアドレス", text: $email)
+                .padding()
+                .textFieldStyle(.roundedBorder)
             SecureInputView(password: $password)
             
             // MARK: - ログインボタン
@@ -44,8 +48,8 @@ struct NewEntryAuthView: View {
         }
     }
 }
-struct NewEntryAuthView_Previews: PreviewProvider {
+struct AccountResistView_Previews: PreviewProvider {
     static var previews: some View {
-        NewEntryAuthView()
+        AccountResistView()
     }
 }
