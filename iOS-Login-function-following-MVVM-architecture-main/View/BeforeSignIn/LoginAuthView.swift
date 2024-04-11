@@ -47,11 +47,6 @@ struct LoginAuthView: View {
             
             Text("または").padding()
             
-            // MARK: - Googleアカウントログイン
-            GoogleAuthButtonView(isActive: $isActive)
-            
-            // MARK: - Apple IDログイン
-            AppleAuthButtonView(isActive: $isActive,userEditReauthName:"",userWithDrawa: false)
             // MARK: - 未登録遷移ボタン
             HStack{
                 Spacer()
