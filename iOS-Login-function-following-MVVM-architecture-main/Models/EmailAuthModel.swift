@@ -1,8 +1,8 @@
 //
 //  EmailAuthModel.swift
-//  TestAuth
 //
-//  Created by t&a on 2023/04/02.
+//
+//
 //
 
 import UIKit
@@ -28,7 +28,6 @@ class EmailAuthModel {
             }else{
                 completion(.failure(error!))
             }
-            
         }
     }
     
@@ -50,7 +49,6 @@ class EmailAuthModel {
             }else{
                 completion(.failure(error!))
             }
-            
         }
     }
     
@@ -70,6 +68,7 @@ class EmailAuthModel {
             }
         }
     }
+    
     // MARK: - 新規登録 - (3) 確認メール送信 [未使用]
     private func sendVerificationMail(user:User,completion: @escaping (Bool) -> Void ) {
         user.sendEmailVerification() { error in
@@ -100,6 +99,7 @@ class EmailAuthModel {
             }
         }
     }
+    
     // MARK: - リセットパスワード
     public func resetPassWord(email:String,completion : @escaping (Result<Bool, Error>) ->  Void ){
         auth.sendPasswordReset(withEmail: email) { error in
@@ -156,7 +156,5 @@ class EmailAuthModel {
             }
         }
     }
-    
-    
 }
 
