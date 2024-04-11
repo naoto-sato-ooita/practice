@@ -32,7 +32,9 @@ struct PasswordResetView: View {
             // MARK: - エラーメッセージ
             ErrorMessageView()
             
-            TextField("メールアドレス", text: $email).padding().textFieldStyle(.roundedBorder)
+            TextField("メールアドレス", text: $email)
+                .padding()
+                .textFieldStyle(.roundedBorder)
             
             Button(action: {
                 if validationVM.validateEmail(email: email) {
