@@ -17,9 +17,9 @@ struct EmailAuthButtonView: View {
     @Binding var isActive:Bool
     
     // MARK: - Inputプロパティ
-    var name:String?        // ログインView呼び出し時はnil
-    var email:String
-    var password:String
+    var name:      String?        // ログインView呼び出し時はnil
+    var email:     String
+    var password:  String
     
     // MARK: - プロパティ
     @State var isClick:Bool = false // ログインボタンを押されたかどうか
@@ -85,8 +85,8 @@ struct EmailAuthButtonView: View {
                     .foregroundColor(.white)
                     .cornerRadius(5)
                     .disabled(!validationInput())
-            }).padding()
+            })
+            .padding()
         }
-        
     }
 }
