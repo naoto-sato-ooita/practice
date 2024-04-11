@@ -45,7 +45,7 @@ struct ContentView: View {
                 .padding()
             
             
-            NavigationLink(isActive: $isActive, destination:{ WithdrawalAuthView()}, label: {
+            NavigationLink(isActive: $isActive, destination:{ UnSubscribeView()}, label: {
                 Text("退会する")
             }).frame(width:70)
                 .padding()
