@@ -23,16 +23,20 @@ struct LoginAuthView: View {
             ErrorMessageView()
             
             // MARK: - InputBox
-            TextField("メールアドレス", text: $email).padding().textFieldStyle(.roundedBorder)
+            TextField("メールアドレス", text: $email)
+                .padding()
+                .textFieldStyle(.roundedBorder)
+            
             SecureInputView(password: $password)
             
             // MARK: - パスワードリセット画面遷移ボタン
             HStack{
                 Spacer()
-                NavigationLink(destination: PasswordResetView(), label: {
-                    Text("パスワードを忘れた場合").font(.system(size: 15))
-                }).padding(.trailing)
-                
+                NavigationLink(destination: PasswordResetView(),
+                        label: {Text("パスワードを忘れた場合")
+                        .font(.system(size: 15))
+                })
+                    .padding(.trailing)
             }
             
             // MARK: - ログインボタン
@@ -40,21 +44,25 @@ struct LoginAuthView: View {
         
 
             // MARK: - 透明のNavigationLink
-            NavigationLink(isActive: $isActive, destination:{ ContentView()}, label: {
+            NavigationLink(isActive: $isActive, destination:{
+                ContentView() },
+            label: {
                 EmptyView()
             })
            
             
-            Text("または").padding()
+            Text("または")
+            .padding()
             
             // MARK: - 未登録遷移ボタン
             HStack{
                 Spacer()
                 NavigationLink(destination: NewEntryAuthView(), label: {
-                    Text("未登録の方はこちら").font(.system(size: 15))
-                }).padding(.trailing)
+                    Text("未登録の方はこちら")
+                    .font(.system(size: 15))
+                })
+                .padding(.trailing)
             }
-            
         }.navigationBarHidden(true)
     }
 }
