@@ -1,8 +1,8 @@
 //
 //  UnSubscribeView.swift
-//  TestAuth
 //
-//  Created by t&a on 2023/04/03.
+//
+//
 //
 
 import SwiftUI
@@ -21,7 +21,9 @@ struct UnSubscribeView: View {
         VStack{
             
             // MARK: - 透明のNavigationLink
-            NavigationLink(isActive: $isActive, destination:{ LoginAuthView()}, label: {
+            NavigationLink(isActive: $isActive, destination:{
+                LoginAuthView()}, 
+            label: {
                 EmptyView()
             })
             
@@ -39,12 +41,13 @@ struct UnSubscribeView: View {
                 
             } label: {
                 Text("Email退会")
-            }.frame(width:170)
-                .padding()
-                .background(.cyan)
-                .tint(.white)
-                .cornerRadius(5)
-                .padding()
+            }
+            .frame(width:170)
+            .padding()
+            .background(.cyan)
+            .tint(.white)
+            .cornerRadius(5)
+            .padding()
             
             Divider().padding()
             
