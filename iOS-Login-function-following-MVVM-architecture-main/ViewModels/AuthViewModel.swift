@@ -1,18 +1,18 @@
 //
 //  AuthViewModel.swift
-//  TestAuth
 //
-//  Created by t&a on 2023/04/02.
+//
+//
 //
 
 import UIKit
 import FirebaseAuth
 import FirebaseCore
 
-class AuthViewModel:ObservableObject {
+class AuthViewModel: ObservableObject {
     
     // MARK: - シングルトン
-    static let shared =     AuthViewModel()
+    static let shared = AuthViewModel()
     
     private var auth = AuthModel.shared
     private let emailAuth = EmailAuthModel.shared
@@ -22,12 +22,13 @@ class AuthViewModel:ObservableObject {
     
     private func switchResultAndSetErrorMsg(_ result:Result<Bool,Error>) -> Bool{
         switch result {
-        case .success(_) :
-            return true
-        case .failure(let error) :
-            print(error.localizedDescription)
-            self.errMessage = self.errModel.setErrorMessage(error)
-            return false
+            case .success(_) :
+                return true
+            
+            case .failure(let error) :
+                print(error.localizedDescription)
+                self.errMessage = self.errModel.setErrorMessage(error)
+                return false
         }
     }
     
