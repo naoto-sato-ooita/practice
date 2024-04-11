@@ -2,13 +2,14 @@
 //  AuthModel.swift
 //
 //
-//  Created by t&a on 2023/04/02.
+//
 //
 
 import UIKit
+import SwiftUI
 import FirebaseAuth
 import FirebaseCore
-import SwiftUI
+
 
 class AuthModel {
 
@@ -26,15 +27,19 @@ class AuthModel {
     public let defaultName = "no name"
     
     // MARK: - Sign In for Credential
-    public func credentialSignIn(credential: AuthCredential,completion : @escaping (Result<Bool, Error>) ->  Void ){
-        self.auth.signIn(with: credential) { (authResult, error) in
+    
+    public func credentialSignIn(credential: AuthCredential,
+                completion : @escaping (Result<Bool, Error>) ->  Void ){
+                self.auth.signIn(with: credential) { (authResult, error) in
+                                                    
             if error == nil {
-            if authResult?.user != nil{
-                if authResult!.user.displayName == nil{
-                    // Appleアカウントの場合は存在しない
+                
+                if authResult?.user != nil{
+                    if authResult!.user.displayName == nil{
+                        // Appleアカウントの場合は存在しない
+                    }
+                    completion(.success(true))
                 }
-                completion(.success(true))
-            }
             }else{
                 completion(.failure(error!))
             }
@@ -67,5 +72,4 @@ class AuthModel {
         }
     }
 }
-
 
