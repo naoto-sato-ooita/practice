@@ -10,11 +10,11 @@ import SwiftUI
 struct LoginAuthView: View {
 
     // MARK: - Inputプロパティ
-    @State  var email:String = ""
-    @State  var password:String = ""
+    @State var email:    String = ""
+    @State var password: String = ""
     
     // MARK: - Navigationプロパティ
-    @State var isActive:Bool = false
+    @State var isActive: Bool = false
         
     var body: some View {
         VStack{
@@ -57,7 +57,9 @@ struct LoginAuthView: View {
             // MARK: - 未登録遷移ボタン
             HStack{
                 Spacer()
-                NavigationLink(destination: AccountResistView(), label: {
+                NavigationLink(destination: 
+                    AccountResistView()
+                ,label: {
                     Text("未登録の方はこちら")
                     .font(.system(size: 15))
                 })
