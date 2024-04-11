@@ -8,7 +8,6 @@
 import UIKit
 import FirebaseAuth
 import FirebaseCore
-import AuthenticationServices // Apple
 
 class AuthViewModel:ObservableObject {
     
@@ -17,9 +16,6 @@ class AuthViewModel:ObservableObject {
     
     private var auth = AuthModel.shared
     private let emailAuth = EmailAuthModel.shared
-    private let googleAuth = GoogleAuthModel.shared
-    private let appleAuth = AppleAuthModel.shared
-    
     private let errModel = AuthErrorModel()
     
     @Published var errMessage:String = ""
@@ -96,74 +92,4 @@ extension AuthViewModel {
         }
     }
     
-}
-
-// MARK: - Google
-extension AuthViewModel {
-    
-    /// サインイン
-    public func credentialGoogleSignIn(completion: @escaping (Bool) -> Void ) {
-        googleAuth.getCredential { credential in
-            if credential != nil {
-                self.auth.credentialSignIn(credential: credential!) { result in
-                    completion(self.switchResultAndSetErrorMsg(result))
-                }
-            }
-        }
-    }
-    
-    /// 再認証→退会
-    public func credentialGoogleWithdrawal(completion: @escaping (Bool) -> Void ) {
-        self.credentialGoogleReaAuth { result in
-            if result {
-                self.withdrawal { result in
-                    completion(result)
-                }
-            }
-        }
-    }
-    
-    /// 再認証
-    private func credentialGoogleReaAuth(completion: @escaping (Bool) -> Void ) {
-        googleAuth.getCredential { credential in
-            if credential != nil {
-                self.googleAuth.reAuthUser(user: self.auth.getCurrentUser()!, credential: credential!) { result in
-                    completion(self.switchResultAndSetErrorMsg(result))
-                }
-            }
-        }
-    }
-    
-}
-
-// MARK: - Apple
-extension AuthViewModel {
-    
-    ///  サインイン
-    public func credentialAppleSignIn(credential:AuthCredential,completion: @escaping (Bool) -> Void ) {
-        self.auth.credentialSignIn(credential: credential) { result in
-            print("Apple Login")
-            completion(self.switchResultAndSetErrorMsg(result))
-        }
-    }
-    
-    /// Firebase
-    public func getHashAndSetCurrentNonce() -> String {
-        let nonce = appleAuth.randomNonceString()
-        appleAuth.currentNonce = nonce
-        return appleAuth.sha256(nonce)
-    }
-    
-    /// ボタンクリック後の結果分岐処理
-    public func switchAuthResult(result:Result<ASAuthorization, Error>) -> AuthCredential?{
-        return appleAuth.switchAuthResult(result: result)
-    }
-    
-    //    public func editUserInfo(credential:AuthCredential,name:String,completion: @escaping (Bool) -> Void ) {
-    //        if let user = auth.getCurrentUser() {
-    //            appleAuth.editUserNameApple(user: user, credential: credential, name: name) { result in
-    //                completion(result)
-    //            }
-    //        }
-    //    }
 }
