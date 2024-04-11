@@ -13,16 +13,18 @@ struct ContentView: View {
     @ObservedObject var authVM = AuthViewModel.shared
     
     // MARK: - Navigationプロパティ
-    @State var isActive:Bool = false
-    @State var isActive2:Bool = false
+    @State var isActive:  Bool = false
+    @State var isActive2: Bool = false
     
-    @State  var password:String = ""
+    @State  var password: String = ""
     
     var body: some View {
         VStack{
             
             // MARK: - 透明のNavigationLink
-            NavigationLink(isActive: $isActive2, destination:{ LoginAuthView()}, label: {
+            NavigationLink(isActive: $isActive2, destination:{
+                LoginAuthView()
+            }, label: {
                 EmptyView()
             })
             
@@ -46,7 +48,9 @@ struct ContentView: View {
             .padding()
             
             
-            NavigationLink(isActive: $isActive, destination:{ UnSubscribeView()}, label: {
+            NavigationLink(isActive: $isActive, destination:{
+                UnSubscribeView()
+            }, label: {
                 Text("退会する")
             })
             
