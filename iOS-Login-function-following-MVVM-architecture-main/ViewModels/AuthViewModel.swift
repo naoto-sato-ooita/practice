@@ -12,11 +12,11 @@ import FirebaseCore
 class AuthViewModel:ObservableObject {
     
     // MARK: - シングルトン
-    static let shared = AuthViewModel()
+    static let shared =     AuthViewModel()
     
-    private var auth = AuthModel.shared
+    private var auth =      AuthModel.shared
     private let emailAuth = EmailAuthModel.shared
-    private let errModel = AuthErrorModel()
+    private let errModel =  AuthErrorModel()
     
     @Published var errMessage:String = ""
     
