@@ -37,23 +37,25 @@ struct ContentView: View {
                 }
             } label: {
                 Text("SignOut")
-            }.frame(width:70)
-                .padding()
-                .background(.cyan)
-                .tint(.white)
-                .cornerRadius(5)
-                .padding()
+            }
+            .frame(width:70)
+            .padding()
+            .background(.cyan)
+            .tint(.white)
+            .cornerRadius(5)
+            .padding()
             
             
             NavigationLink(isActive: $isActive, destination:{ UnSubscribeView()}, label: {
                 Text("退会する")
-            }).frame(width:70)
-                .padding()
-                .background(.cyan)
-                .tint(.white)
-                .cornerRadius(5)
-                .padding()
-   
+            })
+            
+            .frame(width:70)
+            .padding()
+            .background(.cyan)
+            .tint(.white)
+            .cornerRadius(5)
+            .padding()
         }
     }
 }
