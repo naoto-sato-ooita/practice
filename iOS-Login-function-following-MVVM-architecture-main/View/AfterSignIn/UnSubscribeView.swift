@@ -1,5 +1,5 @@
 //
-//  WithdrawalAuthView.swift
+//  UnSubscribeView.swift
 //  TestAuth
 //
 //  Created by t&a on 2023/04/03.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct WithdrawalAuthView: View {
+struct UnSubscribeView: View {
     
     // MARK: - ViewModels
     @ObservedObject var authVM = AuthViewModel.shared
@@ -52,8 +52,8 @@ struct WithdrawalAuthView: View {
     }
 }
 
-struct WithdrawalAuthView_Previews: PreviewProvider {
+struct UnSubscribeView_Previews: PreviewProvider {
     static var previews: some View {
-        WithdrawalAuthView()
+        UnSubscribeView()
     }
 }
