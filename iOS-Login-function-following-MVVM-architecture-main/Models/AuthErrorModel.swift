@@ -1,6 +1,6 @@
 //
 //  AuthErrorModel.swift
-//  TestAuth
+// 
 //
 //  Created by t&a on 2023/04/03.
 //
