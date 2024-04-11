@@ -14,11 +14,11 @@ class AuthViewModel:ObservableObject {
     // MARK: - シングルトン
     static let shared =     AuthViewModel()
     
-    private var auth =      AuthModel.shared
+    private var auth = AuthModel.shared
     private let emailAuth = EmailAuthModel.shared
-    private let errModel =  AuthErrorModel()
+    private let errModel = AuthErrorModel()
     
-    @Published var errMessage:String = ""
+    @Published var errMessage: String = ""
     
     private func switchResultAndSetErrorMsg(_ result:Result<Bool,Error>) -> Bool{
         switch result {
@@ -53,8 +53,6 @@ class AuthViewModel:ObservableObject {
             completion(self.switchResultAndSetErrorMsg(result))
         }
     }
-    
-    
 }
 
 // MARK: - Email
@@ -91,5 +89,4 @@ extension AuthViewModel {
             completion(self.switchResultAndSetErrorMsg(result))
         }
     }
-    
 }
