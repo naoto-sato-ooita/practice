@@ -1,8 +1,8 @@
 //
 //  TestAuthApp.swift
-//  TestAuth
+//  
 //
-//  Created by t&a on 2023/03/31.
+//
 //
 
 import SwiftUI
