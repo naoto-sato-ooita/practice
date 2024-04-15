@@ -1,0 +1,88 @@
+//
+//  ViewSetting.swift
+//  Tenna2
+//
+//  Created by Naoto Sato on 2024/04/15.
+//
+
+import MapKit
+
+extension CLLocationCoordinate2D{
+    static var userLocation: CLLocationCoordinate2D{
+        return.init(latitude: 35.6895, longitude: 139.6917)
+    }
+}
+
+//表示領域を定義
+extension MKCoordinateRegion{
+    static var userRegion:MKCoordinateRegion{
+        return .init(center: .userLocation, latitudinalMeters: 1000, longitudinalMeters: 1000)
+    }
+}
+//表示場所を定義
+extension MapView {
+    func searchPlaces() async {
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = searchText
+        request.region = MKCoordinateRegion(center: locationManager.userLocation, latitudinalMeters: 1000, longitudinalMeters: 1000)
+        
+        do {
+            let response = try await MKLocalSearch(request: request).start()
+            self.results = response.mapItems
+        } catch {
+            print("Error searching for places: \(error)") // エラー処理
+        }
+    }
+}
+
+//周辺風景の読み込み
+extension LocationDetailView{
+    func fetchLookAroundPreview(){
+        if let mapSelection{
+            lookAroundScene = nil
+            Task{
+                let request = MKLookAroundSceneRequest(mapItem: mapSelection)
+                lookAroundScene = try? await request.scene
+            }
+        }
+    }
+}
+//現在地を取得してLocationManagerに反映
+import CoreLocation
+
+class LocationViewModel:NSObject,ObservableObject {
+    private var locationManager : CLLocationManager?
+    @Published var speed: Double = 0.0
+    @Published var  log :String = ""
+    
+    init(locationManager : CLLocationManager = CLLocationManager()){
+        super.init()
+        self.locationManager = locationManager
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+    }
+}
+
+//位置情報の取得許可変更
+extension LocationViewModel : CLLocationManagerDelegate{
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus{
+        case .notDetermined:
+            log = "Location authorization not determined"
+        case .restricted:
+            log = "Location authorization restricted"
+        case .denied:
+            log = "Location authorization denied"
+        case .authorizedAlways:
+            manager.requestLocation()
+            log = "Location authorization always granted"
+        case .authorizedWhenInUse:
+            manager.startUpdatingLocation()
+            log = "Location authorization when in use granted"
+        @unknown default:
+            log = "Unknown authorization status"
+            
+        }
+    }
+}
+
