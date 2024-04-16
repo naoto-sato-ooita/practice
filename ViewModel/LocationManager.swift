@@ -34,10 +34,7 @@ class LocationManager: NSObject,ObservableObject,MKMapViewDelegate,CLLocationMan
     }
     //ロケーションを更新
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let lastLocation = locations.last
-        else { return }
-        print(lastLocation)
-        
+        guard let lastLocation = locations.last else { return }
         userLocation = .init(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude)
         isLocationAuthorized = true
     }
