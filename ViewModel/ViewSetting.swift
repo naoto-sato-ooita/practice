@@ -23,15 +23,17 @@ extension MKCoordinateRegion{
 
 //検索結果をMapView.resultsに格納　（今回不要）
 extension MapView {
-    func searchPlaces(for query: String) async {
-        let request = MKLocalSearch.Request()                 //プレイス検索の結果を格納
-        request.naturalLanguageQuery = query                 //serchTextの自然言語をクエリに渡す
-        request.region = MKCoordinateRegion(center: locationManager.userLocation, //userLocationをセンターの座標を渡す
-                                            latitudinalMeters: 500, longitudinalMeters: 500)
+    func searchPlaces() async {
+        let request = MKLocalSearch.Request()                     //プレイス検索の結果を格納
+        request.naturalLanguageQuery = searchText                 //serchTextの自然言語をクエリに渡す
+        request.region = MKCoordinateRegion(
+                center: locationManager.userLocation,             //userLocationをセンターの座標を渡す
+                span: MKCoodinateSpan (latitudinalDelta: 0.0125, longitudinalDelta: 0.0125))
         
         do {
-            let response = try await MKLocalSearch(request: request).start()     //自然言語と座標を渡して検索開始
-            self.results = response.mapItems                                     //検索結果を格納
+            let searchPlace = MKLocalSearch(request: request)     //自然言語と座標を渡して検索開始
+            let response = try? await searchPlace.start()         //検索開始
+            self.results = response?.mapItems ?? []               //検索結果を格納
         } catch {
             print("Error searching for places: \(error)") // エラー処理
         }
