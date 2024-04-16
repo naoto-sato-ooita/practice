@@ -20,8 +20,8 @@ extension MKCoordinateRegion{
         return .init(center: .userLocation, latitudinalMeters: 1000, longitudinalMeters: 1000) //locationManager.userLocation?
     }
 }
-//検索結果をself.resultsに格納
-extension MapView { //ここいる？
+//検索結果をMapView.resultsに格納　（今回不要）
+extension MapView {
     func searchPlaces() async {
         let request = MKLocalSearch.Request()                 //プレイス検索の結果を格納
         request.naturalLanguageQuery = searchText             //serchTextの自然言語をクエリに渡す
@@ -37,7 +37,7 @@ extension MapView { //ここいる？
     }
 }
 
-//周辺風景の読み込み
+//lookAroundPreviewの実装（今回不要）
 extension LocationDetailView{
     func fetchLookAroundPreview(){
         if let mapSelection{
@@ -49,13 +49,11 @@ extension LocationDetailView{
         }
     }
 }
-//現在地を取得してLocationManagerに反映
+//ocationManagerの定義（重複？）
 import CoreLocation
 
 class LocationViewModel:NSObject,ObservableObject {
     private var locationManager : CLLocationManager?
-    @Published var speed: Double = 0.0
-    @Published var  log :String = ""
     
     init(locationManager : CLLocationManager = CLLocationManager()){
         super.init()
@@ -65,7 +63,7 @@ class LocationViewModel:NSObject,ObservableObject {
     }
 }
 
-//位置情報の取得許可変更
+//位置情報の取得許可変更時のパターン別警告
 extension LocationViewModel : CLLocationManagerDelegate{
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus{
