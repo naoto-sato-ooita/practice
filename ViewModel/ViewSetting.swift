@@ -7,6 +7,7 @@
 
 import MapKit
 
+//初期位置を定義
 extension CLLocationCoordinate2D{
     static var userLocation: CLLocationCoordinate2D{
         return.init(latitude: 35.6895, longitude: 139.6917)
@@ -16,19 +17,20 @@ extension CLLocationCoordinate2D{
 //表示領域を定義
 extension MKCoordinateRegion{
     static var userRegion:MKCoordinateRegion{
-        return .init(center: .userLocation, latitudinalMeters: 1000, longitudinalMeters: 1000)
+        return .init(center: .userLocation, latitudinalMeters: 1000, longitudinalMeters: 1000) //locationManager.userLocation?
     }
 }
-//表示場所を定義
-extension MapView {
+//検索結果をself.resultsに格納
+extension MapView { //ここいる？
     func searchPlaces() async {
-        let request = MKLocalSearch.Request()
-        request.naturalLanguageQuery = searchText
-        request.region = MKCoordinateRegion(center: locationManager.userLocation, latitudinalMeters: 1000, longitudinalMeters: 1000)
+        let request = MKLocalSearch.Request()                 //プレイス検索の結果を格納
+        request.naturalLanguageQuery = searchText             //serchTextの自然言語をクエリに渡す
+        request.region = MKCoordinateRegion(center: locationManager.userLocation, //userLocationをセンターの座標を渡す
+                                            latitudinalMeters: 1000, longitudinalMeters: 1000)
         
         do {
-            let response = try await MKLocalSearch(request: request).start()
-            self.results = response.mapItems
+            let response = try await MKLocalSearch(request: request).start()     //自然言語と座標を渡して検索開始
+            self.results = response.mapItems                                     //検索結果を格納
         } catch {
             print("Error searching for places: \(error)") // エラー処理
         }
