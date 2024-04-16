@@ -23,9 +23,9 @@ extension MKCoordinateRegion{
 
 //検索結果をMapView.resultsに格納　（今回不要）
 extension MapView {
-    func searchPlaces() async {
+    func searchPlaces(for query: String) async {
         let request = MKLocalSearch.Request()                 //プレイス検索の結果を格納
-        request.naturalLanguageQuery = searchText             //serchTextの自然言語をクエリに渡す
+        request.naturalLanguageQuery = query                 //serchTextの自然言語をクエリに渡す
         request.region = MKCoordinateRegion(center: locationManager.userLocation, //userLocationをセンターの座標を渡す
                                             latitudinalMeters: 500, longitudinalMeters: 500)
         
