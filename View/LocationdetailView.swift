@@ -27,9 +27,6 @@ struct LocationDetailView: View {
                     Text(mapSelection?.placemark.title ?? "")
                         .font(.subheadline)
                         .fontWeight(.semibold)
-                        .background(
-                            LinearGradient(colors: [.clear,.black], startPoint: .top, endPoint: .bottom)
-                        )
                 }
                 Spacer()
                 Divider()
