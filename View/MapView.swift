@@ -10,25 +10,9 @@ import MapKit
 import CoreLocation
 import UIKit
 
-//MKAnnotationを実装するCustomAnnotationクラスを定義
-class CustomAnnotation: NSObject, MKAnnotation, Identifiable {
-    var coordinate: CLLocationCoordinate2D
-    var title: String?
-    var id = UUID() // Identifiableに必要なプロパティ
-    
-    init(coordinate: CLLocationCoordinate2D, title: String?) {
-        self.coordinate = coordinate
-        self.title = title
-    }
-}
-
-
 struct MapView: View {
     @State private var mapRegion: MKCoordinateRegion = .userRegion //表示範囲の更新
-    @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
-    
     @ObservedObject var locationViewModel = LocationViewModel() //Locationの更新用
-    
     @StateObject var locationManager = LocationManager() //ロケーションマネジャーの設定更新
     
     @State private var showMap = true //地図が表示後かの判断フラグ
@@ -38,41 +22,23 @@ struct MapView: View {
     @State private var showDetails = false
     @State private var getDirections = false
     
-    //@State  var trackingMode = MapUserTrackingMode.follow //追従モード
-    
+    @State  var trackingMode = MapUserTrackingMode.follow //追従モード
+    //@State private var cameraPosition: MapCameraPosition = .region(.userRegion)
     var body: some View {
         
         VStack {
             
-            Map(position: $cameraPosition , selection : $mapSelection){
-                Annotation("",coordinate: .userLocation) {
-                    ZStack{
-                        Circle()
-                            .frame(width: 32,height: 32)
-                            .foregroundColor(.blue.opacity(0.25))
-                        Circle()
-                            .frame(width: 20,height: 20)
-                            .foregroundColor(.white)
-                        Circle()
-                            .frame(width: 12,height: 12)
-                            .foregroundColor(.blue)
-                        
-                    }
-                }
-                ForEach(results, id: \.self){ item in
-                    let placemark = item.placemark
-                    Marker(placemark.name ?? "", coordinate :placemark.coordinate)}
-            }
+
             
-//            Map(coordinateRegion: $mapRegion,
-//                showsUserLocation: true, //ユーザーを表示
-//                userTrackingMode: $trackingMode, //追従モード
-//                annotationItems: results.map { mapItem in //検索結果を表示
-//                CustomAnnotation(coordinate: mapItem.placemark.coordinate, title: mapItem.name ?? "")})
-//            { annotation in
-//                MapMarker(coordinate: annotation.coordinate, tint: .red) //MapPinを配置
-//                
-//            }
+           Map(coordinateRegion: $mapRegion,
+               showsUserLocation: true, //ユーザーを表示
+               userTrackingMode: $trackingMode, //追従モード
+               annotationItems: results.map { mapItem in //検索結果を表示
+               CustomAnnotation(coordinate: mapItem.placemark.coordinate, title: mapItem.name ?? "")})
+           { annotation in
+               MapMarker(coordinate: annotation.coordinate, tint: .red) //MapPinを配置
+               
+           }
             
             .mapControls{
                 MapUserLocationButton()
@@ -123,3 +89,21 @@ struct MapView_Previews: PreviewProvider {
 }
 
 
+            // Map(position: $cameraPosition , selection : $mapSelection){
+            //     Annotation("",coordinate: .userLocation) {
+            //         ZStack{
+            //             Circle()
+            //                 .frame(width: 32,height: 32)
+            //                 .foregroundColor(.blue.opacity(0.25))
+            //             Circle()
+            //                 .frame(width: 20,height: 20)
+            //                 .foregroundColor(.white)
+            //             Circle()
+            //                 .frame(width: 12,height: 12)
+            //                 .foregroundColor(.blue)
+            //         }
+            //     }
+            //     ForEach(results, id: \.self){ item in
+            //         let placemark = item.placemark
+            //         Marker(placemark.name ?? "", coordinate :placemark.coordinate)}
+            // }
