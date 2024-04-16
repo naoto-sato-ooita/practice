@@ -81,6 +81,6 @@ class LocationManager: NSObject,ObservableObject,MKMapViewDelegate,CLLocationMan
 //表示領域を定義
 extension MKCoordinateRegion{
     static var userRegion:MKCoordinateRegion{
-        return .init(center: .userLocation, latitudinalMeters: 1000, longitudinalMeters: 1000) //locationManager.userLocation?
+        return .init(center: .userLocation, latitudinalMeters: 1000, longitudinalMeters: 1000) 
     }
 }
