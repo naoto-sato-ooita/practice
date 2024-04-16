@@ -7,7 +7,7 @@
 
 import MapKit
 
-//初期位置を定義
+//初期位置を定義 (重複、削除)
 extension CLLocationCoordinate2D{
     static var userLocation: CLLocationCoordinate2D{
         return.init(latitude: 35.6895, longitude: 139.6917)
