@@ -68,10 +68,19 @@ class LocationManager: NSObject,ObservableObject,MKMapViewDelegate,CLLocationMan
         userLocation = CLLocationCoordinate2DMake(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude)
         isLocationAuthorized = true
     }
+
+
     
     //エラー処理
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         
     }
 
+}
+
+//表示領域を定義
+extension MKCoordinateRegion{
+    static var userRegion:MKCoordinateRegion{
+        return .init(center: .userLocation, latitudinalMeters: 1000, longitudinalMeters: 1000) //locationManager.userLocation?
+    }
 }
