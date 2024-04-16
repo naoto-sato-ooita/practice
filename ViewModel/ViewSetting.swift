@@ -7,7 +7,7 @@
 
 import MapKit
 
-//初期位置を定義 (重複、削除)
+//初期位置を定義
 extension CLLocationCoordinate2D{
     static var userLocation: CLLocationCoordinate2D{
         return.init(latitude: 35.6895, longitude: 139.6917)
@@ -17,9 +17,10 @@ extension CLLocationCoordinate2D{
 //表示領域を定義
 extension MKCoordinateRegion{
     static var userRegion:MKCoordinateRegion{
-        return .init(center: .userLocation, latitudinalMeters: 1000, longitudinalMeters: 1000) //locationManager.userLocation?
+        return .init(center: .userLocation, latitudinalMeters: 500, longitudinalMeters: 500) //locationManager.userLocation?
     }
 }
+
 //検索結果をMapView.resultsに格納　（今回不要）
 extension MapView {
     func searchPlaces() async {
