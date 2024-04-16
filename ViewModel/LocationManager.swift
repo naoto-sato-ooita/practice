@@ -44,7 +44,7 @@ class LocationManager: NSObject,ObservableObject,MKMapViewDelegate,CLLocationMan
                 print("Location is denied")
             case .authorizedAlways,.authorizedWhenInUse:
                 print("Location permission done")
-                manager.requestLocation()
+                manager.requestLocation() //一度だけ位置情報を更新
             default:
                 break;
         }
