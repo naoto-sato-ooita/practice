@@ -11,7 +11,7 @@ import CoreLocation
 import UIKit
 
 struct MapView: View {
-    @State private var mapRegion: MKCoordinateRegion = .userRegion   //表示範囲の更新
+    @State private var mapRegion: MKCoordinateRegion = .userRegion   //表示範囲の更新 .userLocation?
     @ObservedObject var locationViewModel = LocationViewModel()      //Locationの更新
     @StateObject var locationManager = LocationManager()             //ロケマネ設定の更新
     @State private var showMap = true                                //地図が表示されたかのフラグ
@@ -51,7 +51,7 @@ struct MapView: View {
                 Task { await searchPlaces() }
             }
             .onAppear {
-                mapRegion = MKCoordinateRegion(center: locationManager.userLocation, latitudinalMeters: 1000, longitudinalMeters: 1000) //表示範囲を更新
+                mapRegion = MKCoordinateRegion(center: locationManager.userLocation, latitudinalMeters: 50, longitudinalMeters: 50) //表示範囲を更新
             }
             .onChange(of: locationManager.isLocationAuthorized, {oldValue , newValue in //位置取得変更有無の確認
                 showMap = true
