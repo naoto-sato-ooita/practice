@@ -8,7 +8,17 @@
 import MapKit
 import CoreLocation
 
-
+//CustomAnnotationクラスを定義
+class CustomAnnotation : NSObject, MKAnnotation, Identifiable {
+    var coordinate: CLLocationCoordinate2D
+    var title: String?
+    var id = UUID() // Identifiableに必要なプロパティ
+    
+    init(coordinate: CLLocationCoordinate2D, title: String?) {
+        self.coordinate = coordinate
+        self.title = title
+    }
+}
 //位置情報に関するイベントをコントロール
 class LocationManager: NSObject,ObservableObject,MKMapViewDelegate,CLLocationManagerDelegate{
     
@@ -29,71 +39,55 @@ class LocationManager: NSObject,ObservableObject,MKMapViewDelegate,CLLocationMan
         //manager.activityType = .fitness //徒歩で移動
     }
     
-    //プライバシー変更有無確認
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        checkAuthorization()
-    }
-    
-    //プライバシー確認
-    func checkAuthorization(){
-        switch manager.authorizationStatus{
-            case .notDetermined:
-                manager.requestWhenInUseAuthorization()
-                log = "Location authorization not determined"\
-            
-            case .restricted:
-                log = "Location authorization restricted"
-            
-            case .denied:
-                log = "Location authorization denied"
-            
-            case .authorizedWhenInUse:
-                manager.startUpdatingLocation()
-                log = "Location authorization when in use granted"
-            
-            case .authorizedAlways:
-                manager.requestLocation() //一度だけ位置情報を更新
-                log = "Location authorization always granted"
-            
-            default:
-                log = "Unknown authorization status"
-                break;
+
+        //プライバシー変更有無確認
+        func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+            //プライバシー確認
+            func checkAuthorization(){
+                switch manager.authorizationStatus{
+                case .notDetermined:
+                    manager.requestWhenInUseAuthorization()
+                    //log = "Location authorization not determined"
+                    
+                case .restricted:
+                    //log = "Location authorization restricted"
+                    break;
+                case .denied:
+                    //log = "Location authorization denied"
+                    break;
+                case .authorizedWhenInUse:
+                    manager.startUpdatingLocation()
+                    //log = "Location authorization when in use granted"
+                    
+                case .authorizedAlways:
+                    manager.requestLocation() //一度だけ位置情報を更新
+                    //log = "Location authorization always granted"
+                    
+                default:
+                    //log = "Unknown authorization status"
+                    break;
+                }
+            }
         }
-    }
+    
+    
     
     //位置情報を取得した場合以下の、関数を呼び出し緯度経度等の情報を取得できます。
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let lastLocation = locations.last else { return }
         //.initから変更
-        userLocation = CLLocationCoordinate2DMake(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude)
+        userLocation = CLLocationCoordinate2DMake(lastLocation.coordinate.latitude, lastLocation.coordinate.longitude)
         isLocationAuthorized = true
     }
-
-
+    
+    
     
     //エラー処理
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         
     }
-
-}
-
-//表示範囲の初期設定
-extension MKCoordinateRegion{
-    static var userRegion:MKCoordinateRegion{
-        return .init(center: .userLocation, latitudinalMeters: 50, longitudinalMeters: 50) 
-    }
-}
-
-
-//CustomAnnotationクラスを定義
-class CustomAnnotation: NSObject, MKAnnotation, Identifiable {
-    var coordinate: CLLocationCoordinate2D
-    var title: String?
-    var id = UUID() // Identifiableに必要なプロパティ
     
-    init(coordinate: CLLocationCoordinate2D, title: String?) {
-        self.coordinate = coordinate
-        self.title = title
-    }
 }
+
+
+
