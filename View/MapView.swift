@@ -11,41 +11,34 @@ import CoreLocation
 import UIKit
 
 struct MapView: View {
-    @State private var mapRegion: MKCoordinateRegion = .userRegion //表示範囲の更新
-    @ObservedObject var locationViewModel = LocationViewModel() //Locationの更新用
-    @StateObject var locationManager = LocationManager() //ロケーションマネジャーの設定更新
-    
-    @State private var showMap = true //地図が表示後かの判断フラグ
-    @State var searchText = "" //検索窓の初期値
-    @State var results = [MKMapItem]() //検索結果
-    @State private var mapSelection: MKMapItem?
+    @State private var mapRegion: MKCoordinateRegion = .userRegion   //表示範囲の更新
+    @ObservedObject var locationViewModel = LocationViewModel()      //Locationの更新
+    @StateObject var locationManager = LocationManager()             //ロケマネ設定の更新
+    @State private var showMap = true                                //地図が表示されたかのフラグ
+    @State var searchText = ""                                       //検索窓の初期値
+    @State var results = [MKMapItem]()                               //検索結果をresultsに格納
     @State private var showDetails = false
     @State private var getDirections = false
     
     @State  var trackingMode = MapUserTrackingMode.follow //追従モード
+    
     //@State private var cameraPosition: MapCameraPosition = .region(.userRegion)
-    var body: some View {
-        
-        VStack {
-            
+    //@State private var mapSelection: MKMapItem?
 
-            
-           Map(coordinateRegion: $mapRegion,
-               showsUserLocation: true, //ユーザーを表示
-               userTrackingMode: $trackingMode, //追従モード
-               annotationItems: results.map { mapItem in //検索結果を表示
-               CustomAnnotation(coordinate: mapItem.placemark.coordinate, title: mapItem.name ?? "")})
-           { annotation in
-               MapMarker(coordinate: annotation.coordinate, tint: .red) //MapPinを配置
-               
+    var body: some View {
+        VStack {
+           Map (coordinateRegion: $mapRegion,
+                showsUserLocation: true,                                     //ユーザーを表示
+                userTrackingMode: $trackingMode,                             //追従モード
+                
+                annotationItems: results.map { mapItem in                    //検索結果を表示
+                    CustomAnnotation(coordinate: mapItem.placemark.coordinate, title: mapItem.name ?? "")}){ annotation in
+                        MapMarker(coordinate: annotation.coordinate, tint: .red)    //MapPinを配置
            }
-            
             .mapControls{
                 MapUserLocationButton()
-                
             }
             .ignoresSafeArea()
-            
             .overlay(alignment: .top) {
                 TextField("Search for a location", text: $searchText)
                     .font(.subheadline)
@@ -57,7 +50,6 @@ struct MapView: View {
             .onSubmit(of: .text) {
                 Task { await searchPlaces() }
             }
-            
             .onAppear {
                 mapRegion = MKCoordinateRegion(center: locationManager.userLocation, latitudinalMeters: 1000, longitudinalMeters: 1000) //表示範囲を更新
             }
@@ -73,10 +65,6 @@ struct MapView: View {
                     .presentationBackgroundInteraction(.enabled(upThrough: .height(340)))
                     .presentationCornerRadius(12)
             })
-            
-            
-            
-            
         }
     }
 }
