@@ -28,14 +28,15 @@ struct MapView: View {
     var body: some View {
         VStack {
            Map (coordinateRegion: $mapRegion,
-                showsUserLocation: true,                                     //ユーザーを表示
+                showsUserLocation: Bool = true,                              //ユーザーを表示
                 userTrackingMode: $trackingMode,                             //追従モード
-                
-                annotationItems: results.map { mapItem in                    //検索結果を表示
+                interactionModes: MapInteractionModes = .all,                //操作モード
+                annotationItems: results.map { mapItem in                    //アノテーションを配置
                     CustomAnnotation(coordinate: mapItem.placemark.coordinate, title: mapItem.name ?? "")}){ annotation in
-                        MapMarker(coordinate: annotation.coordinate, tint: .red)    //MapPinを配置
+                        MapMarker(coordinate: annotation.coordinate, tint: .red)
            }
-            .mapControls{
+            .mapControls{　//重複？
+                //MapScaleView()
                 MapUserLocationButton()
             }
             .ignoresSafeArea()
