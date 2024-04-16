@@ -49,7 +49,7 @@ extension LocationDetailView{
         }
     }
 }
-//ocationManagerの定義（重複？）
+//locationManagerの定義（重複？）
 import CoreLocation
 
 class LocationViewModel:NSObject,ObservableObject {
@@ -63,7 +63,7 @@ class LocationViewModel:NSObject,ObservableObject {
     }
 }
 
-//位置情報の取得許可変更時のパターン別警告
+//位置情報の取得許可変更時のパターン別警告 （重複,処理先を確認）
 extension LocationViewModel : CLLocationManagerDelegate{
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus{
