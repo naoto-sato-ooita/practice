@@ -23,26 +23,17 @@ class LocationManager: NSObject,ObservableObject,MKMapViewDelegate,CLLocationMan
         manager = CLLocationManager() //managerでインスタンス化
         manager.delegate = self //デリゲート先が同じ
         manager.requestWhenInUseAuthorization()
-        manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters //位置精度
-        manager.distanceFilter = 20.0 // 更新頻度、距離
+        manager.desiredAccuracy = kCLLocationAccuracyBest //位置精度
+        manager.distanceFilter = 4.0 // 更新頻度、距離
         manager.startUpdatingLocation() //追跡をスタートさせるメソッド
+        //manager.activityType = .fitness //徒歩で移動
     }
     
     //プライバシー変更有無確認
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         checkAuthorization()
     }
-    //ロケーションを更新
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let lastLocation = locations.last else { return }
-        userLocation = .init(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude)
-        isLocationAuthorized = true
-    }
     
-    //エラー処理
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        
-    }
     //プライバシー確認
     func checkAuthorization(){
         switch manager.authorizationStatus{
@@ -58,4 +49,18 @@ class LocationManager: NSObject,ObservableObject,MKMapViewDelegate,CLLocationMan
                 break;
         }
     }
+    
+    //位置情報を取得した場合以下の、関数を呼び出し緯度経度等の情報を取得できます。
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let lastLocation = locations.last else { return }
+        //.initから変更
+        userLocation = CLLocationCoordinate2DMake(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude)
+        isLocationAuthorized = true
+    }
+    
+    //エラー処理
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        
+    }
+
 }
