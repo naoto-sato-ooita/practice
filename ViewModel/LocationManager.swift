@@ -84,3 +84,16 @@ extension MKCoordinateRegion{
         return .init(center: .userLocation, latitudinalMeters: 1000, longitudinalMeters: 1000) 
     }
 }
+
+
+//CustomAnnotationクラスを定義
+class CustomAnnotation: NSObject, MKAnnotation, Identifiable {
+    var coordinate: CLLocationCoordinate2D
+    var title: String?
+    var id = UUID() // Identifiableに必要なプロパティ
+    
+    init(coordinate: CLLocationCoordinate2D, title: String?) {
+        self.coordinate = coordinate
+        self.title = title
+    }
+}
