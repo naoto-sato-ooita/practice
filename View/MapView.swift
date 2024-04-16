@@ -20,52 +20,74 @@ struct MapView: View {
     @State private var showDetails = false
     @State private var getDirections = false
     
-    @State  var trackingMode = MapUserTrackingMode.follow //追従モード
+    //@State  var trackingMode = MapUserTrackingMode.follow //追従モード
     
-    //@State private var cameraPosition: MapCameraPosition = .region(.userRegion)
-    //@State private var mapSelection: MKMapItem?
-
+    @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
+    @State private var mapSelection: MKMapItem?
+    
     var body: some View {
         VStack {
-           Map (coordinateRegion: $mapRegion,
-                showsUserLocation: Bool = true,                              //ユーザーを表示
-                userTrackingMode: $trackingMode,                             //追従モード
-                interactionModes: MapInteractionModes = .all,                //操作モード
-                annotationItems: results.map { mapItem in                    //アノテーションを配置
-                    CustomAnnotation(coordinate: mapItem.placemark.coordinate, title: mapItem.name ?? "")}){ annotation in
-                        MapMarker(coordinate: annotation.coordinate, tint: .red)
-           }
-            .mapControls{　//重複？
-                //MapScaleView()
-                MapUserLocationButton()
-            }
-            .ignoresSafeArea()
-            .overlay(alignment: .top) {
-                TextField("Search for a location", text: $searchText)
-                    .font(.subheadline)
-                    .padding(12)
-                    .background(Color.white)
-                    .padding()
-                    .shadow(radius: 10)
-            }
-            .onSubmit(of: .text) {
-                Task { await searchPlaces() }
-            }
-            .onAppear {
-                mapRegion = MKCoordinateRegion(center: locationManager.userLocation, latitudinalMeters: 50, longitudinalMeters: 50) //表示範囲を更新
-            }
-            .onChange(of: locationManager.isLocationAuthorized, {oldValue , newValue in //位置取得変更有無の確認
-                showMap = true
-            })
-            .onChange(of: mapSelection, { oldValue,newValue in
-                showDetails = newValue != nil
-            })
-            .sheet(isPresented: $showDetails,content: {
-                LocationDetailView(mapSelection: $mapSelection, show: $showDetails, getDirections: $getDirections)
-                    .presentationDetents([.height(340)])
-                    .presentationBackgroundInteraction(.enabled(upThrough: .height(340)))
-                    .presentationCornerRadius(12)
-            })
+             Map(position: $cameraPosition ,
+                 selection: $mapSelection){
+                 Annotation("",coordinate: .userLocation) {
+                     ZStack{
+                         Circle()
+                             .frame(width: 32,height: 32)
+                             .foregroundColor(.blue.opacity(0.25))
+                         Circle()
+                             .frame(width: 20,height: 20)
+                             .foregroundColor(.white)
+                         Circle()
+                             .frame(width: 12,height: 12)
+                             .foregroundColor(.blue)
+                     }
+                 }
+                 ForEach(results, id: \.self){ item in
+                     let placemark = item.placemark
+                     Marker(placemark.name ?? "", coordinate :placemark.coordinate)}
+             }
+            
+            
+            
+//            Map (coordinateRegion: $mapRegion,
+//                 showsUserLocation: true,                              //ユーザーを表示
+//                 userTrackingMode: $trackingMode,                             //追従モード
+//                 //interactionModes: MapInteractionModes = .all,                //操作モード
+//                 annotationItems: results.map { mapItem in                    //アノテーションを配置
+//                CustomAnnotation(coordinate: mapItem.placemark.coordinate, title: mapItem.name ?? "")}){ annotation in
+//                    MapMarker(coordinate: annotation.coordinate, tint: .red)
+//                }
+                .mapControls{//重複？
+                    MapScaleView()
+                    MapUserLocationButton()
+                }
+                .ignoresSafeArea()
+                .overlay(alignment: .top) {
+                    TextField("Search for a location", text: $searchText)
+                        .font(.subheadline)
+                        .padding(12)
+                        .background(Color.white)
+                        .padding()
+                        .shadow(radius: 10)
+                }
+                .onSubmit(of: .text) {
+                    Task { await searchPlaces() }
+                }
+                .onAppear {
+                    mapRegion = MKCoordinateRegion(center: locationManager.userLocation, latitudinalMeters: 50, longitudinalMeters: 50) //表示範囲を更新
+                }
+                .onChange(of: locationManager.isLocationAuthorized, {oldValue , newValue in //位置取得変更有無の確認
+                    showMap = true
+                })
+                .onChange(of: mapSelection, { oldValue,newValue in
+                    showDetails = newValue != nil
+                })
+                .sheet(isPresented: $showDetails,content: {
+                    LocationDetailView(mapSelection: $mapSelection, show: $showDetails, getDirections: $getDirections)
+                        .presentationDetents([.height(340)])
+                        .presentationBackgroundInteraction(.enabled(upThrough: .height(340)))
+                        .presentationCornerRadius(12)
+                })
         }
     }
 }
@@ -78,21 +100,4 @@ struct MapView_Previews: PreviewProvider {
 }
 
 
-            // Map(position: $cameraPosition , selection : $mapSelection){
-            //     Annotation("",coordinate: .userLocation) {
-            //         ZStack{
-            //             Circle()
-            //                 .frame(width: 32,height: 32)
-            //                 .foregroundColor(.blue.opacity(0.25))
-            //             Circle()
-            //                 .frame(width: 20,height: 20)
-            //                 .foregroundColor(.white)
-            //             Circle()
-            //                 .frame(width: 12,height: 12)
-            //                 .foregroundColor(.blue)
-            //         }
-            //     }
-            //     ForEach(results, id: \.self){ item in
-            //         let placemark = item.placemark
-            //         Marker(placemark.name ?? "", coordinate :placemark.coordinate)}
-            // }
+
