@@ -38,14 +38,25 @@ class LocationManager: NSObject,ObservableObject,MKMapViewDelegate,CLLocationMan
     func checkAuthorization(){
         switch manager.authorizationStatus{
             case .notDetermined:
-                print("Location is not determined")
                 manager.requestWhenInUseAuthorization()
+                log = "Location authorization not determined"\
+            
+            case .restricted:
+                log = "Location authorization restricted"
+            
             case .denied:
-                print("Location is denied")
-            case .authorizedAlways,.authorizedWhenInUse:
-                print("Location permission done")
+                log = "Location authorization denied"
+            
+            case .authorizedWhenInUse:
+                manager.startUpdatingLocation()
+                log = "Location authorization when in use granted"
+            
+            case .authorizedAlways:
                 manager.requestLocation() //一度だけ位置情報を更新
+                log = "Location authorization always granted"
+            
             default:
+                log = "Unknown authorization status"
                 break;
         }
     }
