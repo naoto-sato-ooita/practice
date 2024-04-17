@@ -9,6 +9,8 @@ import SwiftUI
 import MapKit
 import CoreLocation
 
+//MARK - LocarionDeteilView
+
 struct LocationDetailView: View {
     @ObservedObject var locationManager = LocationManager()          //Locationの更新
     @Binding var mapSelection : MKMapItem?
@@ -19,7 +21,7 @@ struct LocationDetailView: View {
     var body: some View {
         VStack{
             HStack{
-                //地名、住所
+                //MARK - 地名、住所
                 VStack(alignment: .leading) {
                     Text(mapSelection?.placemark.name ?? "")
                         .font(.title)
@@ -31,18 +33,19 @@ struct LocationDetailView: View {
                 }
                 Spacer()
                 Divider()
+                
+                //MARK - 地名、住所
                 Button{
                     show.toggle()
                     mapSelection = nil
                 }label: {
-                    Image(systemName: "xmark.circle .fill")
+                    Image(systemName: "xmark.circle.fill")
                         .resizable()
                         .frame(width: 24,height: 24)
                         .foregroundStyle(.gray , Color(.systemGray6))
                 }
             }
-            
-            
+             
             .padding(.top)
             
             //周辺の写真
@@ -55,6 +58,7 @@ struct LocationDetailView: View {
             else{
                 ContentUnavailableView("No preview available",systemImage: "eye.slash")
             }
+            
             //下部のボタン
             HStack(spacing: 24){
                 Button{
