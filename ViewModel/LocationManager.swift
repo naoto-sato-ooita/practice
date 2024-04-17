@@ -8,7 +8,7 @@
 import MapKit
 import CoreLocation
 
-//CustomAnnotationクラスを定義
+//MARK - CustomAnnotationクラスを定義
 class CustomAnnotation : NSObject, MKAnnotation, Identifiable {
     var coordinate: CLLocationCoordinate2D
     var title: String?
@@ -19,7 +19,8 @@ class CustomAnnotation : NSObject, MKAnnotation, Identifiable {
         self.title = title
     }
 }
-//位置情報に関するイベントをコントロール
+
+////MARK - 位置情報に関するイベントをコントロール
 class LocationManager: NSObject,ObservableObject,MKMapViewDelegate,CLLocationManagerDelegate{
     
     @Published var manager:CLLocationManager = .init()
@@ -27,7 +28,7 @@ class LocationManager: NSObject,ObservableObject,MKMapViewDelegate,CLLocationMan
     @Published var isLocationAuthorized:Bool = false
     @Published var lastLocation: CLLocation?
     
-    override init(){ //継承して上書き
+    override init(){
         
         super.init()
         manager = CLLocationManager()                           // managerでインスタンス化
@@ -41,7 +42,7 @@ class LocationManager: NSObject,ObservableObject,MKMapViewDelegate,CLLocationMan
     }
 
 
-        //位置情報を取得した場合以下の、関数を呼び出し緯度経度等の情報を取得できます。
+    //MARK - 位置情報を取得した場合以下の、関数を呼び出し緯度経度等の情報を取得できます。
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let lastLocation = locations.last else { return }
         //.initから変更
@@ -49,13 +50,12 @@ class LocationManager: NSObject,ObservableObject,MKMapViewDelegate,CLLocationMan
         isLocationAuthorized = true
     }
     
-    //エラー処理
+    //MARK - エラー処理
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         
     }
-    //プライバシー変更有無確認
+    //MARK - プライバシー変更有無確認
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-    //プライバシー確認
         func checkAuthorization(){
             switch manager.authorizationStatus{
                 case .notDetermined:
@@ -73,9 +73,6 @@ class LocationManager: NSObject,ObservableObject,MKMapViewDelegate,CLLocationMan
             }
          }
     }
-    
-
-    
 }
 
 
