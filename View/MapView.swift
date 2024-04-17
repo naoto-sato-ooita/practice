@@ -30,7 +30,9 @@ struct MapView: View {
     
     var body: some View {
         VStack {
-             Map(position: $cameraPosition ,
+             Map(position: $cameraPosition,
+                 showsUserLocation: true,                            //現在地の追従
+                 userTrackingMode: .constant(MapUserTrackingMode.follow)
                  selection: $mapSelection){
                  Annotation("",coordinate: .userLocation) {
                      ZStack{
@@ -64,13 +66,14 @@ struct MapView: View {
             }
             
 //            Map (coordinateRegion: $mapRegion,
-//                 showsUserLocation: true,                              //ユーザーを表示
+//                 showsUserLocation: true,                                     //ユーザーを表示
 //                 userTrackingMode: $trackingMode,                             //追従モード
-//                 //interactionModes: MapInteractionModes = .all,                //操作モード
+//                 interactionModes: MapInteractionModes = .all,                //操作モード
 //                 annotationItems: results.map { mapItem in                    //アノテーションを配置
 //                CustomAnnotation(coordinate: mapItem.placemark.coordinate, title: mapItem.name ?? "")}){ annotation in
 //                    MapMarker(coordinate: annotation.coordinate, tint: .red)
 //                }
+
                 .mapControls{//重複？
                     MapScaleView()
                     MapUserLocationButton()
