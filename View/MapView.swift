@@ -22,7 +22,8 @@ struct MapView: View {
     
     //@State  var trackingMode = MapUserTrackingMode.follow //追従モード
     
-    @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
+    //@State private var cameraPosition: MapCameraPosition = .region(.userRegion)
+    @State private var cameraPosition: MapCameraPosition = .automatic
     @State private var mapSelection: MKMapItem?
     
     var body: some View {
