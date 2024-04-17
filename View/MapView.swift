@@ -25,7 +25,7 @@ struct MapView: View {
     //@State private var cameraPosition: MapCameraPosition = .region(.userRegion)
     @State private var cameraPosition: MapCameraPosition = .automatic
     @State private var mapSelection: MKMapItem?
-    @State private var visibleRegion: MKCoodinateRegion? //見えている領域を検索
+    @State var visibleRegion: MKCoodinateRegion? //見えている領域を検索
     
     var body: some View {
         VStack {
@@ -50,7 +50,18 @@ struct MapView: View {
              }
             
             
-            position.followsUserLocation == true
+//            position.followsUserLocation == true
+            .ignoresSafeArea()
+            .safeAreaInset(edge: .bottom){
+                HStack{
+                    Spacer()
+                    BeantownButtuns(position: $position, searchResults: $results, visibleRegion: visibleRegion)
+                    .padding(.top)
+                    Spacer()
+                 }
+            .background(.thiMaterial)
+            }
+            
 //            Map (coordinateRegion: $mapRegion,
 //                 showsUserLocation: true,                              //ユーザーを表示
 //                 userTrackingMode: $trackingMode,                             //追従モード
@@ -63,7 +74,7 @@ struct MapView: View {
                     MapScaleView()
                     MapUserLocationButton()
                 }
-                .ignoresSafeArea()
+                
                 .overlay(alignment: .top) {
                     TextField("Search for a location", text: $searchText)
                         .font(.subheadline)
