@@ -70,27 +70,3 @@ extension LocationDetailView{
         }
     }
 }
-
-
-//位置情報の取得許可変更時のパターン別警告 （重複,処理先を確認）
-//extension LocationViewModel : CLLocationManagerDelegate{
-//    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-//        switch manager.authorizationStatus{
-//        case .notDetermined:
-//            log = "Location authorization not determined"
-//        case .restricted:
-//            log = "Location authorization restricted"
-//        case .denied:
-//            log = "Location authorization denied"
-//        case .authorizedAlways:
-//            manager.requestLocation()
-//            log = "Location authorization always granted"
-//        case .authorizedWhenInUse:
-//            manager.startUpdatingLocation()
-//            log = "Location authorization when in use granted"
-//        @unknown default:
-//            log = "Unknown authorization status"
-//            
-//        }
-//    }
-//}
