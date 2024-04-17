@@ -21,7 +21,7 @@ extension MKCoordinateRegion{
     }
 }
 
-//検索結果をMapView.resultsに格納　（今回不要）
+//検索機能：MapView.resultsに格納
 extension MapView {
     func searchPlaces() async {
         let request = MKLocalSearch.Request()                     //プレイス検索の結果を格納
