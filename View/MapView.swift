@@ -20,8 +20,8 @@ struct MapView: View {
     @State private var showDetails = false
     @State private var getDirections = false
 
-    //@StateObject var locationManager = LocationManager()             //ロケマネ設定の更新
-    //@ObservedObject var locationViewModel = locationViewModel             //ロケマネ設定の更新
+    //@StateObject var locationManager = LocationManager()            //ロケマネ設定の更新
+    //@ObservedObject var locationViewModel = locationViewModel       //ロケマネ設定の更新
     //@State  var trackingMode = MapUserTrackingMode.follow           //追従モード
     
     //@State private var cameraPosition: MapCameraPosition = .region(.userRegion)
