@@ -7,52 +7,44 @@
 
 import MapKit
 
-//初期位置を定義
+//MARK - 初期位置を定義
 extension CLLocationCoordinate2D{
     static var userLocation: CLLocationCoordinate2D{
-        return.init(latitude: 35.6895, longitude: 139.6917)
+        return.init(latitude: 35.6895,
+                    longitude: 139.6917)
     }
 }
 
-//表示領域を定義
+//MARK - 表示領域を定義
 extension MKCoordinateRegion{
     static var userRegion:MKCoordinateRegion{
-        return .init(center: .userLocation, latitudinalMeters: 500, longitudinalMeters: 500) //locationManager.userLocation?
+        return .init(center: .userLocation, 
+                     latitudinalMeters: 500, 
+                     longitudinalMeters: 500)
     }
 }
 
-//検索機能：MapView.resultsに格納
+//MARK - 検索機能 MapView.resultsに格納
 extension MapView {
     func searchPlaces() async {
-        let request = MKLocalSearch.Request()                     //プレイス検索の結果を格納
-        request.naturalLanguageQuery = searchText                 //serchTextの自然言語をクエリに渡す
-        request.region = visibleRegion ?? MKCoordinateRegion(
-                center: locationManager.userLocation,             //userLocationをセンターの座標を渡す
-                span: MKCoodinateSpan (latitudinalDelta: 0.0125, longitudinalDelta: 0.0125))
+        let request = MKLocalSearch.Request()                     //検索条件を格納
+        request.naturalLanguageQuery = searchText                 //searchTextの自然言語をクエリに渡す
+        request.region = visibleRegion ?? MKCoordinateRegion(     //表示範囲の検索
+                center: locationManager.userLocation,             //検索結果の表示範囲
+                span: MKCoodinateSpan (latitudinalDelta: 0.0125,
+                                       longitudinalDelta: 0.0125))
         
         do {
             let searchPlace = MKLocalSearch(request: request)     //自然言語と座標を渡して検索開始
             let response = try? await searchPlace.start()         //検索開始
             self.results = response?.mapItems ?? []               //検索結果を格納
         } catch {
-            print("Error searching for places: \(error)") // エラー処理
+            print("Error searching for places: \(error)")         // エラー処理
         }
     }
 }
 
-////lookAroundPreviewの実装（今回不要）
-extension LocationDetailView{
-    func fetchLookAroundPreview(){
-        if let mapSelection{
-            lookAroundScene = nil
-            Task{
-                let request = MKLookAroundSceneRequest(mapItem: mapSelection)
-                lookAroundScene = try? await request.scene
-            }
-        }
-    }
-}
-//locationManagerの定義（重複？）
+//MARK - locationManagerの定義
 import CoreLocation
 
 class LocationViewModel:NSObject,ObservableObject, CLLocationManagerDelegate {
@@ -66,7 +58,21 @@ class LocationViewModel:NSObject,ObservableObject, CLLocationManagerDelegate {
     }
 }
 
-////位置情報の取得許可変更時のパターン別警告 （重複,処理先を確認）
+//MARK - lookAroundPreviewの実装（不要）
+extension LocationDetailView{
+    func fetchLookAroundPreview(){
+        if let mapSelection{
+            lookAroundScene = nil
+            Task{
+                let request = MKLookAroundSceneRequest(mapItem: mapSelection)
+                lookAroundScene = try? await request.scene
+            }
+        }
+    }
+}
+
+
+//位置情報の取得許可変更時のパターン別警告 （重複,処理先を確認）
 //extension LocationViewModel : CLLocationManagerDelegate{
 //    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
 //        switch manager.authorizationStatus{
