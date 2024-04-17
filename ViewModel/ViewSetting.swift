@@ -44,7 +44,7 @@ extension MapView {
     }
 }
 
-//MARK - locationManagerの定義
+//MARK - locationManagerの定義（不要?）
 import CoreLocation
 
 class LocationViewModel:NSObject,ObservableObject, CLLocationManagerDelegate {
