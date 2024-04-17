@@ -10,6 +10,7 @@ import MapKit
 import CoreLocation
 import UIKit
 
+//MARK - MapView-var
 struct MapView: View {
     @State private var mapRegion: MKCoordinateRegion = .userRegion   //表示範囲の更新 .userLocation?
     @ObservedObject var locationManager = LocationManager()          //Locationの更新
@@ -28,6 +29,8 @@ struct MapView: View {
     
     @State private var mapSelection: MKMapItem?                      //選択したアノテーションがあれば返す
     @State var visibleRegion: MKCoodinateRegion?                     //見えている領域を検索
+
+    //MARK - MapView-View
     
     var body: some View {
         VStack {
@@ -52,10 +55,12 @@ struct MapView: View {
                      let placemark = item.placemark
                      Marker(placemark.name ?? "", coordinate :placemark.coordinate)}
              }
-            
-            
-//            position.followsUserLocation == true
+
+    //MARK - MapView-View
+        
+           //position.followsUserLocation == true
             .ignoresSafeArea()
+            
             .safeAreaInset(edge: .bottom){
                 HStack{
                     Spacer()
@@ -63,7 +68,7 @@ struct MapView: View {
                     .padding(.top)
                     Spacer()
                  }
-            .background(.thiMaterial)
+            .background(.thinMaterial)
             }
             
 //            Map (coordinateRegion: $mapRegion,
@@ -102,11 +107,11 @@ struct MapView: View {
                 .onChange(of: mapSelection, { oldValue,newValue in
                     showDetails = newValue != nil
                 })
-                .onMapCameraChange { cotext in                      //見えている領域を検索
+                .onMapCameraChange { cotext in                                     //見えている領域を検索
                     visibleRegion = context.region
                 }
             
-                .sheet(isPresented: $showDetails,content: {        //LocationDetailViewをモーダル表示
+                .sheet(isPresented: $showDetails,content: {                        //LocationDetailViewをモーダル表示
                     LocationDetailView(mapSelection: $mapSelection, show: $showDetails, getDirections: $getDirections)
                         .presentationDetents([.height(340)])
                         .presentationBackgroundInteraction(.enabled(upThrough: .height(340)))
