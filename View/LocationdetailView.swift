@@ -10,6 +10,7 @@ import MapKit
 import CoreLocation
 
 struct LocationDetailView: View {
+    @ObservedObject var locationManager = LocationManager()          //Locationの更新
     @Binding var mapSelection : MKMapItem?
     @Binding var show: Bool
     @State var lookAroundScene: MKLookAroundScene?
