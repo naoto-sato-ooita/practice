@@ -30,13 +30,14 @@ class LocationManager: NSObject,ObservableObject,MKMapViewDelegate,CLLocationMan
     override init(){ //継承して上書き
         
         super.init()
-        manager = CLLocationManager() //managerでインスタンス化
-        manager.delegate = self //デリゲート先が同じ
+        manager = CLLocationManager()                           // managerでインスタンス化
+        manager.delegate = self                                 // デリゲート先が同じ
         manager.requestWhenInUseAuthorization()
-        manager.desiredAccuracy = kCLLocationAccuracyBest //位置精度
-        manager.distanceFilter = 4.0 // 更新頻度、距離
-        manager.startUpdatingLocation() //追跡をスタートさせるメソッド
-        //manager.activityType = .fitness //徒歩で移動
+        manager.desiredAccuracy = kCLLocationAccuracyBest       // 位置精度
+        manager.distanceFilter = 4.0                            // 更新頻度、距離
+        manager.startUpdatingLocation()                         // 追跡をスタートさせるメソッド
+        manager.pausesLocationUpdatesAutomatically = false      // 自動OFFしない
+        manager.activityType = .fitness                    　   // 徒歩で移動
     }
     
 
