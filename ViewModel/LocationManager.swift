@@ -39,41 +39,9 @@ class LocationManager: NSObject,ObservableObject,MKMapViewDelegate,CLLocationMan
         manager.pausesLocationUpdatesAutomatically = false      // 自動OFFしない
         manager.activityType = .fitness                    　   // 徒歩で移動
     }
-    
 
-        //プライバシー変更有無確認
-        func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-            //プライバシー確認
-            func checkAuthorization(){
-                switch manager.authorizationStatus{
-                case .notDetermined:
-                    manager.requestWhenInUseAuthorization()
-                    //log = "Location authorization not determined"
-                    
-                case .restricted:
-                    //log = "Location authorization restricted"
-                    break;
-                case .denied:
-                    //log = "Location authorization denied"
-                    break;
-                case .authorizedWhenInUse:
-                    manager.startUpdatingLocation()
-                    //log = "Location authorization when in use granted"
-                    
-                case .authorizedAlways:
-                    manager.requestLocation() //一度だけ位置情報を更新
-                    //log = "Location authorization always granted"
-                    
-                default:
-                    //log = "Unknown authorization status"
-                    break;
-                }
-            }
-        }
-    
-    
-    
-    //位置情報を取得した場合以下の、関数を呼び出し緯度経度等の情報を取得できます。
+
+        //位置情報を取得した場合以下の、関数を呼び出し緯度経度等の情報を取得できます。
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let lastLocation = locations.last else { return }
         //.initから変更
@@ -81,12 +49,32 @@ class LocationManager: NSObject,ObservableObject,MKMapViewDelegate,CLLocationMan
         isLocationAuthorized = true
     }
     
-    
-    
     //エラー処理
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         
     }
+    //プライバシー変更有無確認
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+    //プライバシー確認
+        func checkAuthorization(){
+            switch manager.authorizationStatus{
+                case .notDetermined:
+                    manager.requestWhenInUseAuthorization()    
+                case .restricted:
+                    break;
+                case .denied:
+                    break;
+                case .authorizedWhenInUse:
+                    manager.startUpdatingLocation()        
+                case .authorizedAlways:
+                    manager.requestLocation() //一度だけ位置情報を更新        
+                default:
+                    break;
+            }
+         }
+    }
+    
+
     
 }
 
