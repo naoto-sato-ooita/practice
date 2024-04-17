@@ -45,18 +45,16 @@ extension MapView {
 }
 
 //MARK - locationManagerの定義（不要?）
-import CoreLocation
-
-class LocationViewModel:NSObject,ObservableObject, CLLocationManagerDelegate {
-    private var locationManager : CLLocationManager?
-    
-    init(locationManager : CLLocationManager = CLLocationManager()){
-        super.init()
-        self.locationManager = locationManager
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-    }
-}
+// import CoreLocation
+// class LocationViewModel:NSObject,ObservableObject, CLLocationManagerDelegate {
+//     private var locationManager : CLLocationManager?
+//     init(locationManager : CLLocationManager = CLLocationManager()){
+//         super.init()
+//         self.locationManager = locationManager
+//         locationManager.delegate = self
+//         locationManager.requestWhenInUseAuthorization()
+//     }
+// }
 
 //MARK - lookAroundPreviewの実装（不要）
 extension LocationDetailView{
