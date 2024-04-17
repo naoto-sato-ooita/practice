@@ -12,7 +12,7 @@ import UIKit
 
 struct MapView: View {
     @State private var mapRegion: MKCoordinateRegion = .userRegion   //表示範囲の更新 .userLocation?
-    @ObservedObject var locationViewModel = LocationViewModel()      //Locationの更新
+    //@ObservedObject var locationViewModel = LocationViewModel()      //Locationの更新
     @StateObject var locationManager = LocationManager()             //ロケマネ設定の更新
     @State private var showMap = true                                //地図が表示されたかのフラグ
     @State var searchText = ""                                       //検索窓の初期値
