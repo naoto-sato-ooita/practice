@@ -25,16 +25,16 @@ struct MapView: View {
     //@State private var cameraPosition: MapCameraPosition = .region(.userRegion)
     @State private var cameraPosition: MapCameraPosition = .automatic
     
-    @State private var mapSelection: MKMapItem?
+    @State private var mapSelection: MKMapItem?                      //選択したアノテーションがあれば返す
     @State var visibleRegion: MKCoodinateRegion?                     //見えている領域を検索
     
     var body: some View {
         VStack {
              Map(position: $cameraPosition,
-                 showsUserLocation: true,                            //現在地の追従
-                 userTrackingMode: .constant(MapUserTrackingMode.follow)
+                 showsUserLocation: true,                                   //User位置を表示
+                 userTrackingMode: .constant(MapUserTrackingMode.follow)    //User位置を画面内にする？
                  selection: $mapSelection){
-                 Annotation("",coordinate: .userLocation) {
+                 Annotation("",coordinate: .userLocation) {                 //User位置に以下の形状を表示
                      ZStack{
                          Circle()
                              .frame(width: 32,height: 32)
@@ -74,7 +74,7 @@ struct MapView: View {
 //                    MapMarker(coordinate: annotation.coordinate, tint: .red)
 //                }
 
-                .mapControls{//重複？
+                .mapControls{                                                    // 操作モード
                     MapScaleView()
                     MapUserLocationButton()
                 }
@@ -91,7 +91,9 @@ struct MapView: View {
                     Task { await searchPlaces() }
                 }
                 .onAppear {
-                    mapRegion = MKCoordinateRegion(center: locationManager.userLocation, latitudinalMeters: 50, longitudinalMeters: 50) //表示範囲を更新
+                    mapRegion = MKCoordinateRegion(center: locationManager.userLocation,    //表示範囲を更新
+                                                   latitudinalMeters: 50,
+                                                   longitudinalMeters: 50) 
                 }
                 .onChange(of: locationManager.isLocationAuthorized, {oldValue , newValue in //位置取得変更有無の確認
                     showMap = true
@@ -99,11 +101,11 @@ struct MapView: View {
                 .onChange(of: mapSelection, { oldValue,newValue in
                     showDetails = newValue != nil
                 })
-                .onMapCameraChange { cotext in  //見えている領域を検索
-                                    visibleRegion = context.region
-                                   }
+                .onMapCameraChange { cotext in                      //見えている領域を検索
+                    visibleRegion = context.region
+                }
             
-                .sheet(isPresented: $showDetails,content: {
+                .sheet(isPresented: $showDetails,content: {        //LocationDetailViewをモーダル表示
                     LocationDetailView(mapSelection: $mapSelection, show: $showDetails, getDirections: $getDirections)
                         .presentationDetents([.height(340)])
                         .presentationBackgroundInteraction(.enabled(upThrough: .height(340)))
