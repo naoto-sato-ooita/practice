@@ -25,6 +25,7 @@ struct MapView: View {
     //@State private var cameraPosition: MapCameraPosition = .region(.userRegion)
     @State private var cameraPosition: MapCameraPosition = .automatic
     @State private var mapSelection: MKMapItem?
+    @State private var visibleRegion: MKCoodinateRegion? //見えている領域を検索
     
     var body: some View {
         VStack {
@@ -49,7 +50,7 @@ struct MapView: View {
              }
             
             
-            
+            position.followsUserLocation == true
 //            Map (coordinateRegion: $mapRegion,
 //                 showsUserLocation: true,                              //ユーザーを表示
 //                 userTrackingMode: $trackingMode,                             //追従モード
@@ -83,6 +84,10 @@ struct MapView: View {
                 .onChange(of: mapSelection, { oldValue,newValue in
                     showDetails = newValue != nil
                 })
+                .onMapCameraChange { cotext in  //見えている領域を検索
+                                    visibleRegion = context.region
+                                   }
+            
                 .sheet(isPresented: $showDetails,content: {
                     LocationDetailView(mapSelection: $mapSelection, show: $showDetails, getDirections: $getDirections)
                         .presentationDetents([.height(340)])
