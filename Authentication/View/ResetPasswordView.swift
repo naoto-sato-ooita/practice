@@ -16,7 +16,8 @@ struct ResetPasswordView: View {
     var body: some View {
         NavigationStack{
             VStack{
-                //image
+                
+                //MARK: - Logo
                 Image("Logo")
                     .resizable()
                     .scaledToFill()
@@ -25,7 +26,7 @@ struct ResetPasswordView: View {
                     .padding(.vertical, 32)
                 
                 
-                //form
+                //MARK: - form
                 VStack(spacing: 24){
                     InputView(text: $email,
                               title: "Email Address",
@@ -34,7 +35,8 @@ struct ResetPasswordView: View {
                 }
                 .padding(.horizontal)
                 .padding(.top, 12)
-                
+
+                //MARK: - SignUp Buttun
                 Button{
                     Task {
                         try await viewModel.sendPasswordReset(withEmail: email)
