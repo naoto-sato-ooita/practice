@@ -17,7 +17,7 @@ struct ResetPasswordView: View {
         NavigationStack{
             VStack{
                 
-                //MARK: - Logo
+                //MARK: - logo
                 Image("Logo")
                     .resizable()
                     .scaledToFill()
@@ -36,7 +36,7 @@ struct ResetPasswordView: View {
                 .padding(.horizontal)
                 .padding(.top, 12)
 
-                //MARK: - SignUp Buttun
+                //MARK: - SendPass Buttun
                 Button{
                     Task {
                         try await viewModel.sendPasswordReset(withEmail: email)
