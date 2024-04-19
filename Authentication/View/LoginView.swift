@@ -16,7 +16,7 @@ struct LoginView: View {
     var body: some View {
         NavigationStack{
             VStack{
-                //image
+                //MARK: - icon
                 Image("Logo")
                     .resizable()
                     .scaledToFill()
@@ -25,7 +25,7 @@ struct LoginView: View {
                     .padding(.vertical, 32)
 
 
-                //form
+                //MARK: - Form
                 VStack(spacing: 24){
                     InputView(text: $email,
                               title: "Email Address",
@@ -40,7 +40,7 @@ struct LoginView: View {
                 .padding(.top, 12)
                 
                 
-                //Sign in
+                //MARK: - Sign in Button
                 
                 Button{
                     Task{
@@ -66,7 +66,7 @@ struct LoginView: View {
                 
                 Spacer()
                 
-                //Sign up
+                //MARK: - Sign up
                 NavigationLink{
                     ResistrationView()
                         .navigationBarBackButtonHidden(true)
