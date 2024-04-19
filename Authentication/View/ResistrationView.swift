@@ -19,7 +19,7 @@ struct ResistrationView: View {
     var body: some View {
         VStack{
             
-            //image
+            //MARK: - logo
             Image("Logo")
                 .resizable()
                 .scaledToFill()
@@ -28,7 +28,7 @@ struct ResistrationView: View {
                 .padding(.vertical, 32)
             
             
-            //form
+            //MARK: - form
             VStack(spacing: 24){
                 InputView(text: $email,
                           title: "Email Address",
@@ -70,6 +70,8 @@ struct ResistrationView: View {
             .padding(.horizontal)
             .padding(.top, 12)
             
+            //MARK: - SignUpButton
+            
             Button{
                 Task {
                     try await viewModel.createUser(withEmail: email, password: password,fullname:fullname)
@@ -91,6 +93,8 @@ struct ResistrationView: View {
             .padding(.top , 24)
             
             Spacer()
+            
+            //MARK: - dismiss
             
             Button{
                 dismiss()
