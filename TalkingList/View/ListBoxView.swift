@@ -12,6 +12,7 @@ struct ListBoxView: View {
         
         HStack(alignment: .top , spacing: 12){
             
+            //MARK - UserInfo
             ProfileImageView(user: User.MOCK_USER, size: .medium)
             
             VStack(alignment: .leading, spacing: 4){
@@ -25,7 +26,7 @@ struct ListBoxView: View {
                     .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
                     .frame(maxWidth: UIScreen.main.bounds.width - 100, alignment: .leading)
             }
-            
+            //MARK - LastDate
             HStack{
                 Text("Yesterday")
                 Image(systemName: "chevron.right")
