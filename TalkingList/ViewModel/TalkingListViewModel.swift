@@ -12,15 +12,16 @@ import Firebase
 class TalkingListViewModel: ObservableObject {
     @Published var currentUser: User?
     
-    private var cancellables = Set<AnyCancellable>()
+    private var cancellables = Set<AnyCancellable>() 
+    //配列、購読をキャンセルするときに利用　cancel()メソッドが用意。任意のタイミングで保持しているSubscriptionを破棄できる
     
     init(){
-        setupSubscribers()
+        setupSubscribers() //初期化
     }
     
-    private func setupSubscribers(){
-        UserService.shared.$currentUser.sink { [weak self] user in
+    private func setupSubscribers(){ 
+        UserService.shared.$currentUser.sink { [weak self] user in //Subscriberを作成
             self?.currentUser = user
-        }.store(in: &cancellables)
+        }.store(in: &cancellables) //AnyCancellable配列に格納
     }
 }
