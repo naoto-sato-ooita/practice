@@ -12,7 +12,7 @@ import FirebaseFirestoreSwift
 class UserService {
     @Published var currentUser: User?
     
-    static let shared = UserService()
+    static let shared = UserService() //シングルトン？
     
     @MainActor
     func fetchCurrentUser() async throws{
