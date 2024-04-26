@@ -6,7 +6,8 @@
 //
 
 import SwiftUI
-//購入情報をエクステンションと共有する
+
+//MARK: 購入情報を他のデバイスと共有
 class EntitlementManager: ObservableObject {
     static let userDefaults = UserDefaults(suiteName: "group.your.app")!
 
