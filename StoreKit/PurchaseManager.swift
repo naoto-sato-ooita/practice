@@ -10,7 +10,7 @@ import StoreKit
 
 @MainActor
 class PurchaseManager: NSObject, ObservableObject {
-
+    //製品データの取得（製品IDはStoreKit Configuration Fileと一致させる）IDはサーバから取ってくるのが理想
     private let productIds = ["pro_monthly", "pro_yearly", "pro_lifetime"]
 
     @Published
@@ -35,7 +35,7 @@ class PurchaseManager: NSObject, ObservableObject {
 
     func loadProducts() async throws {
         guard !self.productsLoaded else { return }
-        self.products = try await Product.products(for: productIds)
+        self.products = try await Product.products(for: productIds) //製品データの取得
         self.productsLoaded = true
     }
 
