@@ -17,11 +17,12 @@ struct ContentView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            //MARK: 購入済
+//MARK: 購入済
             if entitlementManager.hasPro {
                 Text("Thank you for purchasing pro!")
-            } else {
-                //MARK: 未購入-購入ボタン
+            } 
+//MARK: 未購入-購入ボタン
+            else {
                 Text("Products")
                 ForEach(purchaseManager.products) { product in
                     Button {
