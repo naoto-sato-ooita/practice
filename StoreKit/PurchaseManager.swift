@@ -8,7 +8,7 @@
 import Foundation
 import StoreKit
 
-@MainActor
+@MainActor //購入とトランザクションを処理
 class PurchaseManager: NSObject, ObservableObject {
     //製品データの取得（製品IDはStoreKit Configuration Fileと一致させる）IDはサーバから取ってくるのが理想
     private let productIds = ["pro_monthly", "pro_yearly", "pro_lifetime"]
@@ -72,7 +72,7 @@ class PurchaseManager: NSObject, ObservableObject {
             if transaction.revocationDate == nil {
                 self.purchasedProductIDs.insert(transaction.productID)
             } else {
-                self.purchasedProductIDs.remove(transaction.productID)
+                self.purchasedProductIDs.remove(transaction.productID) //失効してたら購入済から削除する
             }
         }
 
@@ -89,7 +89,7 @@ class PurchaseManager: NSObject, ObservableObject {
         }
     }
 }
-
+//App Storeアプリからのアプリ内課金の購入に対応する
 extension PurchaseManager: SKPaymentTransactionObserver {
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
 
