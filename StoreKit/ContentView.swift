@@ -17,9 +17,11 @@ struct ContentView: View {
 
     var body: some View {
         VStack(spacing: 20) {
+            //MARK: 購入済
             if entitlementManager.hasPro {
                 Text("Thank you for purchasing pro!")
             } else {
+                //MARK: 未購入-購入ボタン
                 Text("Products")
                 ForEach(purchaseManager.products) { product in
                     Button {
@@ -38,7 +40,7 @@ struct ContentView: View {
                             .clipShape(Capsule())
                     }
                 }
-
+//MARK: 購入の復元ボタン
                 Button {
                     _ = Task<Void, Never> {
                         do {
