@@ -16,7 +16,7 @@ class PurchaseManager: NSObject, ObservableObject {
     @Published
     private(set) var products: [Product] = []
     @Published
-    private(set) var purchasedProductIDs = Set<String>()
+    private(set) var purchasedProductIDs = Set<String>() //購入した製品IDを格納
 
     private let entitlementManager: EntitlementManager
     private var productsLoaded = false
@@ -46,7 +46,7 @@ class PurchaseManager: NSObject, ObservableObject {
         case let .success(.verified(transaction)):
             // Successful purchase
             await transaction.finish()
-            await self.updatePurchasedProducts()
+            await self.updatePurchasedProducts() //購入成功で更新
         case let .success(.unverified(_, error)):
             // Successful purchase but transaction/receipt can't be verified
             // Could be a jailbroken phone
@@ -62,7 +62,7 @@ class PurchaseManager: NSObject, ObservableObject {
             break
         }
     }
-
+//アプリの起動時、購入後、およびトランザクションが更新されたときに呼び出し　オフライン時もローカルキャッシュから返す
     func updatePurchasedProducts() async {
         for await result in Transaction.currentEntitlements {
             guard case .verified(let transaction) = result else {
@@ -78,7 +78,7 @@ class PurchaseManager: NSObject, ObservableObject {
 
         self.entitlementManager.hasPro = !self.purchasedProductIDs.isEmpty
     }
-
+//外部トランザクション(アプリ外での更新や解約、購入失敗)の監視
     private func observeTransactionUpdates() -> Task<Void, Never> {
         Task(priority: .background) { [unowned self] in
             for await verificationResult in Transaction.updates {
