@@ -19,7 +19,7 @@ struct ContentView: View {
         VStack(spacing: 20) {
 //MARK: 購入済
             if entitlementManager.hasPro {
-                Text("Thank you for purchasing pro!")
+                Text("Thank you for purchasing pro!") //ここに解除した機能を記載
             } 
 //MARK: 未購入-購入ボタン
             else {
