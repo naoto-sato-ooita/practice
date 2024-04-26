@@ -15,7 +15,7 @@ struct Step10App: App {
     @StateObject
     private var purchaseManager: PurchaseManager
 
-    init() {
+    init() { //インスタンス生成
         let entitlementManager = EntitlementManager()
         let purchaseManager = PurchaseManager(entitlementManager: entitlementManager)
         self._entitlementManager = StateObject(wrappedValue: entitlementManager)
@@ -28,7 +28,7 @@ struct Step10App: App {
                 .environmentObject(entitlementManager)
                 .environmentObject(purchaseManager)
                 .task {
-                    await purchaseManager.updatePurchasedProducts()
+                    await purchaseManager.updatePurchasedProducts() //起動時にpurchasedProductIDs初期化
                 }
         }
     }
