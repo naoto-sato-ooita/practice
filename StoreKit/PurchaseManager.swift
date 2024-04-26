@@ -32,16 +32,16 @@ class PurchaseManager: NSObject, ObservableObject {
     deinit {
         self.updates?.cancel()
     }
-
+//製品データを取得する処理
     func loadProducts() async throws {
         guard !self.productsLoaded else { return }
         self.products = try await Product.products(for: productIds) //製品データの取得
         self.productsLoaded = true
     }
-
+//購入の処理を開始
     func purchase(_ product: Product) async throws {
         let result = try await product.purchase()
-
+//購入処理結果の検証
         switch result {
         case let .success(.verified(transaction)):
             // Successful purchase
