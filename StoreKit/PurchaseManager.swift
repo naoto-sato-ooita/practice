@@ -8,9 +8,11 @@
 import Foundation
 import StoreKit
 
-@MainActor //購入とトランザクションを処理
+//MARK: 購入とトランザクションを処理
+@MainActor 
 class PurchaseManager: NSObject, ObservableObject {
-    //製品データの取得（製品IDはStoreKit Configuration Fileと一致させる）IDはサーバから取ってくるのが理想
+    
+//MARK: 製品データの取得（製品IDはStoreKit Configuration Fileと一致させる）IDはサーバから取ってくるのが理想
     private let productIds = ["pro_monthly", "pro_yearly", "pro_lifetime"]
 
     @Published
@@ -32,16 +34,19 @@ class PurchaseManager: NSObject, ObservableObject {
     deinit {
         self.updates?.cancel()
     }
-//製品データを取得する処理
+    
+//MARK: 製品データを取得する処理
     func loadProducts() async throws {
         guard !self.productsLoaded else { return }
         self.products = try await Product.products(for: productIds) //製品データの取得
         self.productsLoaded = true
     }
-//購入の処理を開始
+    
+//MARK: 購入の処理を開始
     func purchase(_ product: Product) async throws {
         let result = try await product.purchase()
-//購入処理結果の検証
+
+//MARK: 購入処理結果の検証
         switch result {
         case let .success(.verified(transaction)):
             // Successful purchase
@@ -62,7 +67,8 @@ class PurchaseManager: NSObject, ObservableObject {
             break
         }
     }
-//アプリの起動時、購入後、およびトランザクションが更新されたときに呼び出し　オフライン時もローカルキャッシュから返す
+    
+//MARK: アプリの起動時、購入後、トランザクション更新時に購入状況を取得
     func updatePurchasedProducts() async {
         for await result in Transaction.currentEntitlements {
             guard case .verified(let transaction) = result else {
@@ -78,7 +84,8 @@ class PurchaseManager: NSObject, ObservableObject {
 
         self.entitlementManager.hasPro = !self.purchasedProductIDs.isEmpty
     }
-//外部トランザクション(アプリ外での更新や解約、購入失敗)の監視
+    
+//MARK: 外部トランザクションの監視(アプリ外での更新や解約、購入失敗)
     private func observeTransactionUpdates() -> Task<Void, Never> {
         Task(priority: .background) { [unowned self] in
             for await verificationResult in Transaction.updates {
@@ -89,7 +96,8 @@ class PurchaseManager: NSObject, ObservableObject {
         }
     }
 }
-//App Storeアプリからのアプリ内課金の購入に対応する
+
+//MARK: App Storeアプリからのアプリ内課金の購入に対応する
 extension PurchaseManager: SKPaymentTransactionObserver {
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
 
