@@ -15,7 +15,7 @@ struct Step10App: App {
     @StateObject
     private var purchaseManager: PurchaseManager
 
-    init() { //インスタンス生成
+    init() {
         let entitlementManager = EntitlementManager()
         let purchaseManager = PurchaseManager(entitlementManager: entitlementManager)
         self._entitlementManager = StateObject(wrappedValue: entitlementManager)
